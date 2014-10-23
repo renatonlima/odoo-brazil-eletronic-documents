@@ -39,7 +39,7 @@ arquivos XML""",
     """,
     'depends': [
         'l10n_br_account_product',
-        'l10n_br_delivery',
+        'account_cancel',
     ],
     'data': [
              'wizard/nfe_invoice_cancel_view.xml',

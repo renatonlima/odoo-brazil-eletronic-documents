@@ -114,8 +114,8 @@ class AccountInvoice(orm.Model):
                             'response': '',
                             'company_id': company.id,
                             'origin': '[NF-E]' + inv.internal_number,
-                            'file_sent': processo.arquivos[0]['arquivo'],
-                            'file_returned': processo.arquivos[1]['arquivo'],
+                            # 'file_sent': processo.arquivos[0]['arquivo'],
+                            # 'file_returned': processo.arquivos[1]['arquivo'],
                             'message': processo.resposta.xMotivo.valor,
                             'state': 'done',
                             'document_event_ids': inv.id}
@@ -190,8 +190,8 @@ class AccountInvoice(orm.Model):
                                 'response': '',
                                 'company_id': company.id,
                                 'origin': '[NF-E] {0}'.format(inv.internal_number),
-                                'file_sent': processo.arquivos[0]['arquivo'] if len(processo.arquivos) > 0 else '',
-                                'file_returned': processo.arquivos[1]['arquivo'] if len(processo.arquivos) > 0 else '',
+                                # 'file_sent': processo.arquivos[0]['arquivo'] if len(processo.arquivos) > 0 else '',
+                                # 'file_returned': processo.arquivos[1]['arquivo'] if len(processo.arquivos) > 0 else '',
                                 'message': processo.resposta.xMotivo.valor,
                                 'state': 'done',
                                 'document_event_ids': inv.id}

@@ -18,10 +18,11 @@
 ###############################################################################
 
 import os
+import commands
 import base64
 from openerp.osv import osv,orm, fields
 from openerp.tools.translate import _
-from openerp.addons.nfe.sped.nfe.processing.xml import monta_caminho_nfe
+from openerp.addons.nfe.sped.nfe.processing.xml import monta_caminho_nfe, monta_caminho_inutilizacao
 
 class AccountInvoiceInvalidNumber(orm.Model):
     _inherit = 'l10n_br_account.invoice.invalid.number'
@@ -31,24 +32,33 @@ class AccountInvoiceInvalidNumber(orm.Model):
         if seq == None:
             seq = 1
 
+        # monta_caminho_inutilizacao
         for obj in self.browse(cr, uid, ids):
             company_pool = self.pool.get('res.company')
             company = company_pool.browse(cr, uid, obj.company_id.id)
-            # nfe_key = obj.nfe_access_key
+            number_start = obj.number_start
+            number_end = obj.number_end
+            number_serie = self.browse(cr, uid, ids, context)[0].document_serie_id.code
+
+            #self.pool.get('l10n_br_account.document.serie')
+            # nfe_key = self.pool.get('account.invoice').browse(cr, uid, ids)[0].nfe_access_key
 
             if att_type == 'inu':
-                save_dir = context['caminho']
-                str_aux = save_dir[-53:]
-                nfe_key = save_dir[-53:-12]
+                save_dir = monta_caminho_inutilizacao(company, None, number_serie, number_start, number_end)
+                comando = 'ls ' + save_dir + '*-inu.xml| grep -E "[0-9]{41}-inu.xml"'
+                if os.system(comando) == 0:
+                    arquivo = commands.getoutput(comando)
+                key = arquivo[-49:-8]
+                str_aux = arquivo[-49:]
 
             obj_attachment = self.pool.get('ir.attachment')
 
             try:
-                file_attc=open(save_dir,'r')
+                file_attc=open(arquivo,'r')
                 attc = file_attc.read()
 
                 attachment_id = obj_attachment.create(cr, uid, {
-                    'name': str_aux.format(nfe_key),
+                    'name': str_aux.format(key),
                     'datas': base64.b64encode(attc),
                     'datas_fname': '.' + ext,
                     'description': '' or _('No Description'),
