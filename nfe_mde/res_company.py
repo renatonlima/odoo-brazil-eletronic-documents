@@ -23,3 +23,5 @@ class res_company(models.Model):
     _inherit = 'res.company'
 
     last_nsu_nfe = fields.Char(string="Último NSU usado", size=20, default='0')
+
+    
