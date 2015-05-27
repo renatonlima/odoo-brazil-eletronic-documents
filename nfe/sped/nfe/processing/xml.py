@@ -80,6 +80,9 @@ def send(company, nfe):
 
     logo = company.logo
     logo_image = Image.open(StringIO(logo.decode('base64')))
+    bg = Image.new("RGB", logo_image.size, (255, 255, 255))
+    bg.paste(logo_image, logo_image)
+    bg.save(image_path)
     image_path = os.path.join(company.nfe_export_folder, 'company_logo.png')
     logo_image.save(image_path)
     p.danfe.logo = image_path
@@ -133,6 +136,16 @@ def print_danfe(inv):
         file_xml = os.path.join(file_xml, 'tmp/')
     procnfe.xml = os.path.join(file_xml, inv.nfe_access_key + '-nfe.xml')
     danfe = DANFE()
+#
+    logo = inv.company_id.logo
+    logo_image = Image.open(StringIO(logo.decode('base64')))
+    image_path = os.path.join(inv.company_id.nfe_export_folder, 'company_logo.png')
+    logo_image.save(image_path)
+    danfe.logo = image_path
+    bg = Image.new("RGB", logo_image.size, (255, 255, 255))
+    bg.paste(logo_image, logo_image)
+    bg.save(image_path)
+# 
     danfe.NFe = procnfe.NFe
     danfe.protNFe = procnfe.protNFe
     danfe.caminho = "/tmp/"
