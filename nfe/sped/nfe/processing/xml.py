@@ -139,6 +139,7 @@ def print_danfe(inv):
         file_xml = os.path.join(file_xml, 'tmp/')
     procnfe.xml = os.path.join(file_xml, inv.nfe_access_key + '-nfe.xml')
     danfe = DANFE()
+
     danfe.NFe = procnfe.NFe
     danfe.protNFe = procnfe.protNFe
     danfe.caminho = "/tmp/"

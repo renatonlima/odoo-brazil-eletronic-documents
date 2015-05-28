@@ -240,10 +240,10 @@ class AccountInvoice(orm.Model):
                                                                'nfe_status': vals["status"]+ ' - ' +vals["message"]
                                                                })
                                 obj_cancel = self.pool.get('l10n_br_account.invoice.cancel')
-                                obj_cancel.create(cr,uid, 
+                                obj_cancel.create(cr,uid,
                                    {'invoice_id': inv.id,
                                     'justificative': justificative,
-                                    })                                                   
+                                    })
                     results.append(vals)
                 except Exception as e:
                     _logger.error(e.message,exc_info=True)

@@ -21,8 +21,8 @@
     'name': 'NFCE',
     'version': '0.1',
     'category': 'Point of Sale',
-    'description': """Implementa a exportação de notas fiscais do consumidor
-    eletronica """,
+    'description': """Implementacão da notas fiscais do consumidor
+    eletronica / NFC-E """,
     'author': 'KMEE',
     'license': 'AGPL-3',
     'website': 'http://www.kmee.com.br',
@@ -32,7 +32,9 @@
         'nfe',
         'point_of_sale',
     ],
-    'data': [],
+    'data': [
+        'views/l10n_br_point_of_sale.xml',
+    ],
     'demo': [],
     'test': [],
     'installable': True,
