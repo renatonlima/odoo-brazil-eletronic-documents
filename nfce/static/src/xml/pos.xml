@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vim:fdl=1:
+-->
+
+<templates id="template" xml:space="preserve">
+    <t t-extend="PosTicket">
+        <t t-jquery=".pos-sale-ticket" t-operation="append">
+            <div>---teste-nfce---</div>
+            <div>
+                <t t-if="order.chNFe">
+                    chNFe:
+                    <t t-esc="order.chNFe"></t>
+                </t>
+            </div>
+            <div>
+                <t t-if="order.get_qtItens()">
+                    qntItens:
+                    <t t-esc="order.get_qtItens()"></t>
+                </t>
+            </div>
+            <div>
+                vICMS:
+                <t t-if="order.vICMS">
+                    <t t-esc="order.vICMS"></t>
+                </t>
+            </div>
+            <div>
+                <t t-if="order.tpAmb">
+                    tpAmb:
+                    <t t-esc="order.tpAmb"></t>
+                </t>
+            </div>
+            <div>
+                <t t-if="order.legal_name">
+                    legal_name:
+                    <t t-esc="order.legal_name"></t>
+                </t>
+            </div>
+            <div>
+                <t t-if="widget.pos.company.nfe_environment">
+                    nfe_environment:
+                    <t t-esc="widget.pos.company.nfe_environment"></t>
+                </t>
+            </div>
+
+        </t>
+    </t>
+
+</templates>
+
+<!--this.chNFe = 'chaveNFE';-->
+            <!--this.nVersao = null;-->
+            <!--this.tpAmb = 2;-->
+            <!--this.cDest = null;-->
+            <!--this.dhEmi = null;-->
+            <!--this.vNF = null;-->
+            <!--this.vICMS = null;-->
+            <!--this.digVal = null;-->
+            <!--this.cldToken = null;-->
+            <!--this.cHashQR = null;-->
+            <!--//-->
+            <!--this.internal_number = null;-->
+            <!--this.serie_nfce = null;-->
+            <!--this.protocolo = null;-->
+            <!--this.vTribTotal = null;-->
+            <!--this.qtItens = null;-->

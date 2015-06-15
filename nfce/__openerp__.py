@@ -33,8 +33,9 @@
         'point_of_sale',
     ],
     'data': [
-        'views/l10n_br_point_of_sale.xml',
+        'views/template.xml'
     ],
+    'qweb': ['static/src/xml/pos.xml'],
     'demo': [],
     'test': [],
     'installable': True,
