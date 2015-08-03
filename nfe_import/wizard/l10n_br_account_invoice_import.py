@@ -72,6 +72,7 @@ class NfeImportAccountInvoiceImport(orm.TransientModel):
 
         importer = self.browse(cr, uid, req_id, context)
         ftype = self._check_extension(importer.file_name)
+        ftype = ftype.lower()
 
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         edoc_obj = self._get_nfe_factory(user.company_id.nfe_version)
