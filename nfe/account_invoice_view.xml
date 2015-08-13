@@ -37,6 +37,10 @@
 					<button name="invoice_open" attrs="{'invisible':['|',('nfe_export_date','=',False),('state','!=','sefaz_export')]}" string="Validate" class="oe_highlight"/>
 					<button name="invoice_trysend" attrs="{'invisible':['|',('state','!=','sefaz_export'),('nfe_export_date','!=',False)]}" confirm="Confirma emissão da NF-e ?" string="Transmitir" class="oe_highlight"  groups="base.group_user"/>
 					<button name="invoice_resend" states="sefaz_exception" string="Habilitar re-envio" class="oe_highlight"  groups="base.group_user"/>
+					<button name="button_cancel" string="Cancelar Fatura"
+                            states="draft,proforma2,sefaz_export,sefaz_exception,open"
+                            groups="base.group_user"
+                            type="object"/>
 					<button name="%(action_nfe_invoice_cce_form)d"
                             attrs="{'invisible':['|',('issuer','!=','0'),
                                                  ('state','not in',['open','paid'])]}"
