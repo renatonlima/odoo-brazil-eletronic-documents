@@ -21,7 +21,8 @@ import os
 import pysped
 import logging
 import datetime
-from openerp.osv import orm
+from openerp.osv import orm, fields
+from openerp import netsvc
 from StringIO import StringIO
 from openerp.tools.translate import _
 from .sped.nfe.nfe_factory import NfeFactory
@@ -36,6 +37,11 @@ _logger = logging.getLogger(__name__)
 class AccountInvoice(orm.Model):
     """account_invoice overwritten methods"""
     _inherit = 'account.invoice'
+
+    _columns = {
+        'sefaz_cancelled': fields.boolean('Cancelado no SEFAZ')
+
+    }
 
     def attach_file_event(self, cr, uid, ids, seq, att_type, ext, context):
         """
@@ -244,15 +250,25 @@ class AccountInvoice(orm.Model):
                         if vals["status"] == '135':
                             result = super(AccountInvoice, self).action_cancel(cr, uid, [inv.id], context)
                             if result:
-                                self.write(cr, uid, [inv.id], {'state':'sefaz_cancelled',
-                                                               'nfe_status': vals["status"]+ ' - ' +vals["message"]
-                                                               })
+                                self.write(
+                                    cr, uid, [inv.id],
+                                    {
+                                        'sefaz_cancelled': True,
+                                        'nfe_status':
+                                            vals["status"]
+                                            + ' - ' +
+                                            vals["message"]
+                                    })
                                 obj_cancel = self.pool.get('l10n_br_account.invoice.cancel')
                                 obj_cancel.create(cr,uid,
                                    {'invoice_id': inv.id,
                                     'justificative': justificative,
                                     })
                     results.append(vals)
+                    wf_service = netsvc.LocalService("workflow")
+                    wf_service.trg_validate(uid, 'account.invoice', inv.id,
+                                            'invoice_cancel', cr)
+
                 except Exception as e:
                     _logger.error(e.message,exc_info=True)
                     vals = {

@@ -22,6 +22,15 @@
                 </button>
 				<xpath expr="//button[@name='invoice_cancel']" position="replace">
 				</xpath>
+				<xpath expr="//field[@name='nfe_purpose']" position="after">
+					<field name="sefaz_cancelled" />
+				</xpath>
+				<xpath expr="//button[@name='action_cancel_draft']" position="replace">
+					<button name="action_cancel_draft"
+							attrs="{'invisible': ['|', ('sefaz_cancelled','=', True), ('state','not in', 'cancel')]}"
+							string="Reset to Draft" type="object" groups="base.group_user"/>
+					<!--states="cancel" -->
+				</xpath>
 			</field>
 		</record>
 	</data>
@@ -48,6 +57,16 @@
 				</button>
 				<xpath expr="//button[@name='invoice_cancel']" position="replace">
 				</xpath>
+				<xpath expr="//field[@name='nfe_purpose']" position="after">
+					<field name="sefaz_cancelled" />
+				</xpath>
+				<xpath expr="//button[@name='action_cancel_draft']" position="replace">
+					<button name="action_cancel_draft"
+							attrs="{'invisible': [('sefaz_cancelled','=', True), ('state','not in', 'cancel')]}"
+							string="Reset to Draft" type="object" groups="base.group_user"/>
+					<!--states="cancel" -->
+				</xpath>
+
 			</field>
 		</record>
 	</data>
