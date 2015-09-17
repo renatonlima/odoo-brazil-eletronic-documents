@@ -155,6 +155,7 @@
                             <line>
                                 <left><t t-esc='line.product_name' /></left>
                                 <right><value><t t-esc='line.price_display' /></value></right>
+                                <br/>
                             </line>
                         </t>
                         <t t-if='!simple'>
@@ -171,19 +172,21 @@
                                         <t t-esc='line.unit_name' />
                                     </t>
                                     x
-                                    <value value-decimals='2'>
+                                    <value value-decimals='2' value-autoint='on'>
                                         <t t-esc='line.price' />
                                     </value>
                                 </left>
                                 <right>
-                                    <value><t t-esc='line.price_display' /></value>
+                                    <value value-decimals="2" value-autoint="on"><t t-esc='line.price_display' /></value>
                                 </right>
+                                <br/>
                             </line>
                         </t>
                     </t>
                 </div>
 
                 <div id="areaIV">
+                    <br/>
                     <left>Quantidade Total de Itens</left>
                     <t t-if="receipt.qtItens">
                         <right>
@@ -191,16 +194,19 @@
                         </right>
                     </t>
                     <line size='double-height'>
+                        <br/>
                         <!--<left><pre>   -->     TOTAL<!--</pre></left> -->
-                        <right><value><t t-esc='receipt.total_with_tax' /></value></right>
+                        <right><value value-autoint="on" value-decimals="2"><t t-esc='receipt.total_with_tax' /></value></right>
                     </line>
-                    <div align="left">FORMA DE PAGAMENTO</div>
-                    <div align="right">Valor Pago</div>
+                    <div line-ratio="0.5"><left>FORMA DE PAGAMENTO</left>     <right>Valor Pago</right></div>
+
                     <t t-foreach='receipt.paymentlines' t-as='line'>
                     <line>
                         <left><t align="left" t-esc='line.journal' /></left>
-                        <right><value><t align="right" t-esc='line.amount'/></value></right>
+                        <right><value value-autoint="on" value-decimals="2"><t align="right" t-esc='line.amount'/></value></right>
+                        <br/>
                     </line>
+
                 </t>
                 </div>
 
@@ -260,19 +266,19 @@
                 <t t-set='taxincluded' t-value='Math.abs(receipt.subtotal - receipt.total_with_tax) &lt;= 0.000001' />
                 <t t-if='!taxincluded'>
                     <line><right>--------</right></line>
-                    <line><left>Subtotal</left><right> <value><t t-esc="receipt.subtotal" /></value></right></line>
+                    <line><left>Subtotal</left><right> <value value-autoint="on" value-decimals="2"><t t-esc="receipt.subtotal" /></value></right><br/></line>
                     <t t-foreach='receipt.tax_details' t-as='tax'>
                         <line>
                             <left><t t-esc='tax.name' /></left>
-                            <right><value><t t-esc='tax.amount' /></value></right>
+                            <right><value value-autoint="on" value-decimals="2"><t t-esc='tax.amount' /></value></right>
+                            <br/>
                         </line>
                     </t>
                 </t>
 
-
                 <line size='double-height'>
                     <left><pre>        CHANGE</pre></left>
-                    <right><value><t t-esc='receipt.change' /></value></right>
+                    <right><value value-autoint="on" value-decimals="2"><t t-esc='receipt.change' /></value></right>
                 </line>
                 <br/>
 
@@ -281,14 +287,15 @@
                 <t t-if='receipt.total_discount'>
                     <line>
                         <left>Discounts</left>
-                        <right><value><t t-esc='receipt.total_discount'/></value></right>
+                        <right><value value-autoint="on" value-decimals="2"><t t-esc='receipt.total_discount'/></value></right>
                     </line>
                 </t>
                 <t t-if='taxincluded'>
                     <t t-foreach='receipt.tax_details' t-as='tax'>
                         <line>
                             <left><t t-esc='tax.name' /></left>
-                            <right><value><t t-esc='tax.amount' /></value></right>
+                            <right><value value-decimals="2" value-autoint="on"><t t-esc='tax.amount' /></value></right>
+                            <br/>
                         </line>
                     </t>
                 </t>
@@ -310,7 +317,4 @@
             </receipt>
         </t>
     </t>
-
-
-
 </templates>

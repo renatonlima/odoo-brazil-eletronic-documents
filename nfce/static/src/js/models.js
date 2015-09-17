@@ -204,6 +204,8 @@ openerp.nfce = function (instance) {
                 self.company = companies[0];
             }
     });
+
+
     //teste de criacao de botao
     //module.NfcePaymentScreenWidget = module.PaymentScreenWidget.include({
     //    template: 'PaymentScreenWidget',
@@ -224,6 +226,4 @@ openerp.nfce = function (instance) {
     //    }
     //});
 };
-
-
 

@@ -32,15 +32,6 @@ from ..sped.nfce.validator.config_check import validate_nfce_configuration
 
 _logger = logging.getLogger(__name__)
 
-#
-# class res_partner(osv.osv):
-#
-#     _inherit = "res.partner"
-#
-#     _columns = {
-#         'leticia' : fields.char(u'Leticiaaaa'),
-#         }
-
 
 class pos_order(osv.osv):
 
@@ -90,7 +81,6 @@ class pos_order(osv.osv):
                }
                eventos.append(vals)
             return True
-
 
     def create_from_ui(self, cr, uid, orders, context=None):
         # Keep only new orders
