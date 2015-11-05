@@ -196,8 +196,8 @@ openerp.nfce = function (instance) {
 
     module.PosModel.prototype.models.push({
          model:  'res.company',
-            fields: [ 'currency_id', 'email', 'website', 'company_registry', 'vat', 'name', 'phone', 'partner_id' , 'country_id',
-                'legal_name', 'nfe_environment', 'cnpj_cpf', 'inscr_est', 'inscr_mun',
+            fields: [ 'currency_id', 'email', 'website', 'company_registry', 'vat', 'name', 'phone', 'partner_id' ,
+                'country_id', 'legal_name', 'nfe_environment', 'cnpj_cpf', 'inscr_est', 'inscr_mun',
                 'street', 'number', 'street2', 'district', 'state_id', 'l10n_br_city_id', 'zip', 'country_id' ],
             ids:    function(self){ return [self.user.company_id[0]] },
             loaded: function(self,companies) {
@@ -226,4 +226,3 @@ openerp.nfce = function (instance) {
     //    }
     //});
 };
-

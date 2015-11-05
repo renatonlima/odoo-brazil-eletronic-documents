@@ -142,9 +142,10 @@
 
                 <div align="center">----------</div>
                 <div id="areaII">
-                    <div align="center">DANFE NFC-e - Documento Auxiliar</div>
-                    <div align="center">da Nota Fiscal de Consumidor Eletrônica</div>
-                    <div align="center"><b>Não permite aproveitamento de crédito ICMS</b></div>
+                    <div align="center"><b>CUPOM FISCAL ELETRÔNICO - SAT</b></div>
+                    <!--<div align="center">DANFE NFC-e - Documento Auxiliar</div>-->
+                    <!--<div align="center">da Nota Fiscal de Consumidor Eletrônica</div>-->
+                    <!--<div align="center"><b>Não permite aproveitamento de crédito ICMS</b></div>-->
                     <br/><br/>
                 </div>
 
@@ -211,11 +212,15 @@
                 </div>
 
                 <div id="areaV">
+                    <br/>
                     <div align="left">Informação dos Tributos Totais Incidentes (Lei Federal 12.741/2012)</div>
                     <div align="right">
                         <t t-esc="receipt.total_tax"></t>
                     </div>
+                    {image_qrcode}
                 </div>
+
+
 
                 <div id="areaVa">
                     <t t-if="receipt.infCpl">
@@ -246,15 +251,15 @@
                     <t t-if="receipt.via">
                         - <t t-esc="receipt.via" />
                     </t>
-                    <br/>
-                    Consulte pela Chave de Acesso em <t t-if="receipt.endEletronico">
-                        <t t-esc="receipt.endEletronico" />
-                    </t>
-                    <br/>
+                    <!--<br/>-->
+                    <!--Consulte pela Chave de Acesso em <t t-if="receipt.endEletronico">-->
+                        <!--<t t-esc="receipt.endEletronico" />-->
+                    <!--</t>-->
+                    <!--<br/>-->
                     <t t-if="receipt.chNFe" align="center">
                         CHAVE DE ACESSO
                         <br/>
-                        <t t-esc="receipt.chNFe" />
+                        <!--<t t-esc="receipt.chNFe" />-->
                     </t>
                 </div>
 
