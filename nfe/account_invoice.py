@@ -20,6 +20,7 @@
 import os
 import logging
 import datetime
+from openerp import models, fields, api
 from openerp.osv import orm
 from openerp.tools.translate import _
 from .sped.nfe.nfe_factory import NfeFactory
@@ -35,6 +36,10 @@ _logger = logging.getLogger(__name__)
 class AccountInvoice(orm.Model):
     """account_invoice overwritten methods"""
     _inherit = 'account.invoice'
+
+    cce_document_event_ids = fields.One2many(
+        'l10n_br_account.invoice.cce', 'invoice_id', u'Eventos')
+    fiscal_comment = fields.Text(u'Observação Fiscal')
 
     def attach_file_event(self, cr, uid, ids, seq, att_type, ext, context):
         """
