@@ -20,7 +20,7 @@
 import os
 import logging
 import datetime
-from openerp import models, fields, api
+from openerp import fields
 from openerp.osv import orm
 from openerp.tools.translate import _
 from .sped.nfe.nfe_factory import NfeFactory
