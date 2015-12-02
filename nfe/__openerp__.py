@@ -24,8 +24,9 @@
     'author': 'Akretion, Danimar Ribeiro, KMEE',
     'license': 'AGPL-3',
     'website': 'http://www.openerpbrasil.org',
-    'description': """Implementa a exportação de notas fiscais através de
-                        arquivos XML
+    'description': """
+      Implementa a exportação de notas fiscais através de arquivos XML
+
       Este módulo é complementar para enviar para a receita a nfe,
       inutilização e cancelamento de notas.
       Dependencias: pysped, geraldo, pyxmlsec
