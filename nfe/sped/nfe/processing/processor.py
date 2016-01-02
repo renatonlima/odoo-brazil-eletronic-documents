@@ -32,13 +32,13 @@ class DANFE(DanfePySped):
         super(DANFE, self).__init__()
 
 
-    def gerar_danfe(self):
-        """
-        Remove a geração automática do DANFE para deixar o processo + leve
-        :return:
-        """
-        self.conteudo_pdf = ''
-        return
+    # def gerar_danfe(self):
+    #     """
+    #     Remove a geração automática do DANFE para deixar o processo + leve
+    #     :return:
+    #     """
+    #     self.conteudo_pdf = ''
+    #     return
 
 
 class ProcessadorNFe(ProcessadorNFePySped):
