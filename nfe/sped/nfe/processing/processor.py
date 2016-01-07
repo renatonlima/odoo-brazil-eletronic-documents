@@ -23,7 +23,6 @@ from pysped.nfe.danfe import DANFE as DanfePySped
 from pysped.nfe.danfe import DAEDE
 
 from .certificado import Certificado
-from memory_profiler import profile
 
 
 class DANFE(DanfePySped):
