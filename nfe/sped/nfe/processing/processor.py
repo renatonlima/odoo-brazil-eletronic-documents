@@ -23,7 +23,6 @@ from pysped.nfe.danfe import DANFE as DanfePySped
 from pysped.nfe.danfe import DAEDE
 
 from .certificado import Certificado
-from memory_profiler import profile
 
 
 class DANFE(DanfePySped):
@@ -43,7 +42,6 @@ class DANFE(DanfePySped):
 
 class ProcessadorNFe(ProcessadorNFePySped):
 
-    @profile
     def __init__(self, company):
         super(ProcessadorNFe, self).__init__()
         self.ambiente = int(company.nfe_environment) or 2
