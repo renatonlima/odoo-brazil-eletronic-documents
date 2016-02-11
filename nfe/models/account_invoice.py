@@ -82,6 +82,33 @@ class AccountInvoice(models.Model):
 
             nfe_obj = self._get_nfe_factory(inv.nfe_version)
 
+            messages_invoice = []
+
+            messages_invoice.append(inv.company_id.invoice_message.message_invoice)
+            for invoice_line in inv.invoice_line:
+                for fiscal_position in invoice_line.fiscal_position:
+                    if fiscal_position.message_id:
+                        messages_invoice.append(
+                            fiscal_position.message_id.message_invoice
+                        )
+                for fiscal_category_id in invoice_line.fiscal_category_id:
+                    if fiscal_category_id.message_id:
+                        messages_invoice.append(
+                            inv.fiscal_category_id.message_id.message_invoice
+                        )
+
+            if messages_invoice:
+                messages_list = []
+
+                for message in messages_invoice:
+                    if message not in messages_list:
+                        messages_list.append(message)
+
+                if inv.comment:
+                    inv.comment += ' - ' + ' - '.join(messages_list)
+                else:
+                    inv.comment = ' - '.join(messages_list)
+
             # nfe_obj = NFe310()
             nfes = nfe_obj.get_xml(self.env.cr, self.env.uid, self.ids,
                                    int(inv.company_id.nfe_environment),
