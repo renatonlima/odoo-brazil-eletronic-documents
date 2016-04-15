@@ -46,11 +46,13 @@ class report_custom(report_int):
         pool = pooler.get_pool(cr.dbname)
         list_account_invoice = []
 
-        ai_obj = pool.get('l10n_br_account.invoice.cce')
-        for cce in ai_obj.browse(cr, uid, active_ids):
-            list_account_invoice.append(cce.id)
-
-        pdf_string = print_daede(cce)
+        # ai_obj = pool.get('l10n_br_account.invoice.cce')
+        # for cce in ai_obj.browse(cr, uid, active_ids):
+        #     invoices = pool.get('account.invoice')
+        #     list_account_invoice.append(invoices.browse(cr, uid, cce.invoice_id))
+        ai_obj = pool.get('account.invoice')
+        account_invoice = ai_obj.browse(cr, uid, active_ids)
+        pdf_string = print_daede(account_invoice)
 
         self.obj = external_pdf(pdf_string)
         self.obj.render()

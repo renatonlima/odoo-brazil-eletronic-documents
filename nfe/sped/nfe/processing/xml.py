@@ -150,11 +150,11 @@ def print_danfe(inv):
     danfe.protNFe = procnfe.protNFe
     danfe.caminho = "/tmp/"
     danfe.gerar_danfe()
-    if inv.cce_document_event_ids:
-        print_daede(inv)
+    # if inv.cce_document_event_ids:
+    #     print_daede(inv)
     paths.append(danfe.caminho + danfe.NFe.chave + '.pdf')
-    if inv.cce_document_event_ids:
-        paths.append(danfe.caminho + danfe.NFe.chave + '-cce.pdf')
+    # if inv.cce_document_event_ids:
+    #     paths.append(danfe.caminho + danfe.NFe.chave + '-cce.pdf')
 
     output = PdfFileWriter()
     s = StringIO()
@@ -210,6 +210,7 @@ def print_daede(inv):
                                            + '-cce.xml')
             daede.procEventos.append(proc_evento)
 
+    paths.append(os.path.join(file_xml, inv.nfe_access_key + '.pdf'))
     daede.caminho = "/tmp/"
     daede.gerar_daede()
     paths.append(daede.caminho + daede.NFe.chave + '-cce.pdf')
