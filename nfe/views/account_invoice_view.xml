@@ -25,8 +25,12 @@
 							attrs="{'invisible':['|',('issuer','!=','0'),
                                                  ('state','not in',['open','paid'])]}"
 							string="Enviar Carta de correção" type="action"/>
+					<button name="action_check_nfe" type="object" string="Consultar"/>
 				</button>
 				<xpath expr="//button[@name='invoice_cancel']" position="replace">
+				</xpath>
+				<xpath expr="//field[@name='account_id']" position="after">
+					<field name="is_danfe_printed"/>
 				</xpath>
 			</field>
 		</record>

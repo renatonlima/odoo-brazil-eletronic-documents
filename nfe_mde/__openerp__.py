@@ -25,6 +25,7 @@
     'license': 'AGPL-3',
     'website': 'http://www.trustcode.com.br',
     'description': """
+
       Implementa a consulta de nfe periodicamente no SEFAZ
 
       Este módulo serve para efetuar download de notas em que são destinada
@@ -45,6 +46,7 @@
         'nfe_attach',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'data/nfe_schedule.xml',
         'views/nfe_mde_view.xml'
     ],
