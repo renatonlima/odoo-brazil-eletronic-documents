@@ -5,5 +5,10 @@
                 name="danfe_account_invoice"
                 model="account.invoice"
                 string="Danfe"/>
+
+        <report id="action_insert_reports_print_daede"
+                name="daede_account_invoice"
+                model="account.invoice"
+                string="Daede"/>
     </data>
 </openerp>

@@ -42,12 +42,14 @@ class AccountInvoice(models.Model):
 
     cce_document_event_ids = fields.One2many(
         'l10n_br_account.invoice.cce', 'invoice_id', u'Eventos')
+
     is_danfe_printed = fields.Boolean(
         string="Danfe Impresso"
     )
 
     @api.multi
     def attach_file_event(self, seq, att_type, ext):
+
         """
         Implemente esse metodo na sua classe de manipulação de arquivos
         :param cr:

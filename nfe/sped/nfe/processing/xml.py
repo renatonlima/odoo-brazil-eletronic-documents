@@ -29,6 +29,7 @@ from pyPdf import PdfFileReader, PdfFileWriter
 from .certificado import Certificado
 from .processor import ProcessadorNFe
 from pysped.nfe.danfe import DANFE
+from pysped.nfe.danfe import DAEDE
 
 
 def __processo(company):
@@ -125,33 +126,94 @@ def send_correction_letter(company, chave_nfe, numero_sequencia, correcao):
         p.ambiente, chave_nfe, numero_sequencia, correcao)
 
 
-def print_danfe(invoices):
+def print_danfe(inv):
     str_pdf = ""
     paths = []
 
-    for inv in invoices:
-        if inv.nfe_version == '1.10':
-            from pysped.nfe.leiaute import ProcNFe_110
-            procnfe = ProcNFe_110()
-        elif inv.nfe_version == '2.00':
-            from pysped.nfe.leiaute import ProcNFe_200
-            procnfe = ProcNFe_200()
-        elif inv.nfe_version == '3.10':
-            from pysped.nfe.leiaute import ProcNFe_310
-            procnfe = ProcNFe_310()
+    if inv.nfe_version == '1.10':
+        from pysped.nfe.leiaute import ProcNFe_110
+        procnfe = ProcNFe_110()
+    elif inv.nfe_version == '2.00':
+        from pysped.nfe.leiaute import ProcNFe_200
+        procnfe = ProcNFe_200()
+    elif inv.nfe_version == '3.10':
+        from pysped.nfe.leiaute import ProcNFe_310
+        procnfe = ProcNFe_310()
 
-        file_xml = monta_caminho_nfe(inv.company_id, inv.nfe_access_key)
-        if inv.state not in ('open', 'paid', 'sefaz_cancelled'):
-            file_xml = os.path.join(file_xml, 'tmp/')
-        procnfe.xml = os.path.join(file_xml, inv.nfe_access_key + '-nfe.xml')
-        danfe = DANFE()
-        danfe.logo = add_backgound_to_logo_image(inv.company_id)
-        danfe.NFe = procnfe.NFe
-        danfe.protNFe = procnfe.protNFe
-        danfe.caminho = "/tmp/"
-        danfe.gerar_danfe()
-        paths.append(danfe.caminho + danfe.NFe.chave + '.pdf')
-        inv.is_danfe_printed = True
+    file_xml = monta_caminho_nfe(inv.company_id, inv.nfe_access_key)
+    if inv.state not in ('open', 'paid', 'sefaz_cancelled'):
+        file_xml = os.path.join(file_xml, 'tmp/')
+    procnfe.xml = os.path.join(file_xml, inv.nfe_access_key + '-nfe.xml')
+    danfe = DANFE()
+    danfe.logo = add_backgound_to_logo_image(inv.company_id)
+    danfe.NFe = procnfe.NFe
+    danfe.protNFe = procnfe.protNFe
+    danfe.caminho = "/tmp/"
+    danfe.gerar_danfe()
+    # if inv.cce_document_event_ids:
+    #     print_daede(inv)
+    paths.append(danfe.caminho + danfe.NFe.chave + '.pdf')
+    # if inv.cce_document_event_ids:
+    #     paths.append(danfe.caminho + danfe.NFe.chave + '-cce.pdf')
+
+    output = PdfFileWriter()
+    s = StringIO()
+
+    for path in paths:
+        pdf = PdfFileReader(file(path, "rb"))
+        for i in range(pdf.getNumPages()):
+            output.addPage(pdf.getPage(i))
+    output.write(s)
+
+    str_pdf = s.getvalue()
+    s.close()
+    return str_pdf
+
+
+def print_daede(inv):
+    str_pdf = ""
+    paths = []
+
+    if inv.nfe_version == '1.10':
+        from pysped.nfe.leiaute import ProcNFe_110
+        procnfe = ProcNFe_110()
+    elif inv.nfe_version == '2.00':
+        from pysped.nfe.leiaute import ProcNFe_200
+        procnfe = ProcNFe_200()
+    elif inv.nfe_version == '3.10':
+        from pysped.nfe.leiaute import ProcNFe_310
+        procnfe = ProcNFe_310()
+
+    file_xml = monta_caminho_nfe(inv.company_id, inv.nfe_access_key)
+    if inv.state not in ('open', 'paid', 'sefaz_cancelled'):
+        file_xml = os.path.join(file_xml, 'tmp/')
+    procnfe.xml = os.path.join(file_xml, inv.nfe_access_key + '-nfe.xml')
+
+    daede = DAEDE()
+    daede.logo = add_backgound_to_logo_image(inv.company_id)
+    daede.NFe = procnfe.NFe
+    daede.protNFe = procnfe.protNFe
+
+    for cce_account_invoice in inv.cce_document_event_ids:
+        if int(cce_account_invoice.sequencia) < 10:
+            from pysped.nfe.leiaute import ProcEventoCCe_100
+            proc_evento = ProcEventoCCe_100()
+            proc_evento.xml = os.path.join(file_xml, inv.nfe_access_key +
+                                           '-0' + cce_account_invoice.sequencia
+                                           + '-cce.xml')
+            daede.procEventos.append(proc_evento)
+        else:
+            from pysped.nfe.leiaute import ProcEventoCCe_100
+            proc_evento = ProcEventoCCe_100()
+            proc_evento.xml = os.path.join(file_xml, inv.nfe_access_key +
+                                           '-' + cce_account_invoice.sequencia
+                                           + '-cce.xml')
+            daede.procEventos.append(proc_evento)
+
+    paths.append(os.path.join(file_xml, inv.nfe_access_key + '.pdf'))
+    daede.caminho = "/tmp/"
+    daede.gerar_daede()
+    paths.append(daede.caminho + daede.NFe.chave + '-cce.pdf')
 
     output = PdfFileWriter()
     s = StringIO()

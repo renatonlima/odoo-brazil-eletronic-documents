@@ -25,7 +25,9 @@
     'license': 'AGPL-3',
     'website': 'http://www.trustcode.com.br',
     'description': """
-        Implementa a consulta de nfe periodicamente no SEFAZ
+
+      Implementa a consulta de nfe periodicamente no SEFAZ
+
       Este módulo serve para efetuar download de notas em que são destinada
       a empresa.
       Manifesta a ciência ou desconhecimento da NF-e
