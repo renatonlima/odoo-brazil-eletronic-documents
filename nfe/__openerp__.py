@@ -41,6 +41,7 @@
         sudo pip install geraldo
     """,
     'depends': [
+        'report_xls',
         'account_cancel',
         'l10n_br_account_product',
     ],
