@@ -44,6 +44,27 @@ class NfeImportEdit(models.TransientModel):
     def _default_company(self):
         return self.env.user.company_id
 
+    @api.model
+    def _default_warehouse(self):
+        return self.env['stock.warehouse'].search([
+            ('partner_id', '=', self.env.user.company_id.partner_id.id),
+        ], limit=1)
+
+    @api.model
+    def _default_picking_type(self):
+        warehouse = self.env['stock.warehouse'].search([
+            ('partner_id', '=', self.env.user.company_id.partner_id.id),
+        ], limit=1)
+        return self.env['stock.picking.type'].search([
+            ('warehouse_id', '=', warehouse.id), ('code', '=', 'incoming'),
+        ], limit=1)
+
+    warehouse_id = fields.Many2one(
+        'stock.warehouse',  default=_default_warehouse
+    )
+    picking_type_id = fields.Many2one(
+        'stock.picking.type', default=_default_picking_type
+    )
     company_id = fields.Many2one('res.company', string="Empresa",
                                  default=_default_company)
     currency_id = fields.Many2one(related='company_id.currency_id',
@@ -81,6 +102,7 @@ class NfeImportEdit(models.TransientModel):
     product_category_id = fields.Many2one('product.category',
                                           u'Categoria Produto',
                                           default=_default_category)
+
 
     @api.model
     def create(self, values):
@@ -271,12 +293,6 @@ class NfeImportEdit(models.TransientModel):
         return product_tmpl.product_variant_ids[0]
 
     def create_stock_picking(self, invoice):
-        warehouse = self.env['stock.warehouse'].search([
-            ('partner_id', '=', self.env.user.company_id.partner_id.id)
-        ])
-        picking_type_id = self.env['stock.picking.type'].search([
-            ('warehouse_id', '=', warehouse.id), ('code', '=', 'incoming')
-        ])
 
         picking_vals = {
             'name': '/',
@@ -286,7 +302,7 @@ class NfeImportEdit(models.TransientModel):
             'invoice_state': 'none',
             'fiscal_category_id': invoice.fiscal_category_id.id,
             'fiscal_position': invoice.fiscal_position.id,
-            'picking_type_id': picking_type_id.id,
+            'picking_type_id': self.picking_type_id.id,
             'move_lines': [],
         }
         for line in invoice.invoice_line:
@@ -298,8 +314,9 @@ class NfeImportEdit(models.TransientModel):
                 'invoice_state': 'none',
                 'fiscal_category_id': line.fiscal_category_id.id,
                 'fiscal_position': line.fiscal_position.id,
-                'location_id': picking_type_id.default_location_src_id.id,
-                'location_dest_id': picking_type_id.default_location_dest_id.id,
+                'location_id': self.picking_type_id.default_location_src_id.id,
+                'location_dest_id':
+                    self.picking_type_id.default_location_dest_id.id,
             }
             picking_vals['move_lines'].append((0, 0, move_vals))
 
