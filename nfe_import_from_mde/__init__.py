@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2015  Danimar Ribeiro www.trustcode.com.br                    #
@@ -15,13 +15,10 @@
 #                                                                             #
 # You should have received a copy of the GNU Affero General Public License    #
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
+#                                                                             #
 ###############################################################################
-from openerp import models, fields
 
 
-class res_company(models.Model):
-    _inherit = 'res.company'
-
-    last_nsu_nfe = fields.Char(string="Último NSU usado", size=20, default='0')
-
-    
+from . import models
+from . import report
+from . import wizard

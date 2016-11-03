@@ -150,8 +150,13 @@ class Nfe_Mde(models.Model):
             'nao_realizar_operacao')
         env_events = self.env['l10n_br_account.document_event']
 
-        event = self._create_event('Operação não realizada', nfe_result)
-
+        event = {
+            'type':'13', 'response':'Operação não realizada',
+            'company_id': self.company_id.id , 'file_returned': nfe_result['file_returned'],
+            'status':nfe_result['code'] ,'message': nfe_result['message'], 'create_date':datetime.now(),
+            'write_date':datetime.now(), 'end_date':datetime.now(),
+            'state': 'done', 'origin': 'Operação não realizada', 'mde_event_id': self.id
+        }
         if nfe_result['code'] == '135':
             self.state = 'nap_realizado'
         else:
